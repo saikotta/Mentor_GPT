@@ -1,0 +1,279 @@
+You are a senior full-stack engineer, product designer, and AI product architect.
+
+You are building a NATIONAL-LEVEL AI EdTech product called “MentorGPT: Adaptive Skill Coach”.
+
+The goal is to build a FULLY FUNCTIONING, SCALABLE, RESPONSIVE FRONTEND that demonstrates:
+• Personalization
+• Adaptive learning
+• Skill tracking
+• Career alignment
+• Explainable AI behavior
+
+This is a hackathon-grade but production-quality build.
+
+────────────────────────────────
+TECH STACK (STRICT)
+────────────────────────────────
+• Framework: Next.js 14+ (App Router)
+• Language: TypeScript
+• Styling: Tailwind CSS
+• State Management: Zustand
+• Charts: Recharts or Chart.js
+• Icons: Lucide React
+• No backend calls (mock logic only)
+• Mobile-first, fully responsive
+
+────────────────────────────────
+GLOBAL PRINCIPLES (NON-NEGOTIABLE)
+────────────────────────────────
+1. Build modules in order.
+2. Use mock data + rule-based logic to simulate AI.
+3. Every recommendation must be explainable (“Why this?”).
+4. All user data lives in global state.
+5. UX must feel premium, clean, and modern.
+
+────────────────────────────────
+GLOBAL DATA MODELS (USED EVERYWHERE)
+────────────────────────────────
+
+UserProfile:
+{
+  targetRole: string,
+  experienceLevel: "Beginner" | "Intermediate" | "Advanced",
+  timePerWeek: number,
+  interests: string[],
+  createdAt: timestamp
+}
+
+SkillState:
+{
+  skill: string,
+  masteryScore: number (0–100),
+  confidence: number (0–100),
+  lastUpdated: timestamp
+}
+
+LearningTask:
+{
+  id: string,
+  title: string,
+  type: "video" | "article" | "quiz" | "project",
+  relatedSkills: string[],
+  estimatedTime: number,
+  status: "not_started" | "in_progress" | "completed",
+  reason: string
+}
+
+LearningPlan:
+{
+  week: number,
+  tasks: LearningTask[]
+}
+
+AssessmentResult:
+{
+  skill: string,
+  score: number,
+  weakAreas: string[]
+}
+
+CareerFit:
+{
+  role: string,
+  matchPercentage: number,
+  missingSkills: string[]
+}
+
+────────────────────────────────
+MODULE 1 — ONBOARDING WIZARD
+────────────────────────────────
+PURPOSE:
+Capture user intent and create an initial learning profile.
+
+FEATURES:
+• 5-step wizard
+• Role selection
+• Experience level
+• Time availability
+• Interests (multi-select)
+• Skill self-rating (1–5)
+
+OUTPUT:
+• Save UserProfile
+• Initialize SkillState from self-rating
+• Redirect to /dashboard
+
+UX:
+• Step progress indicator
+• Disabled navigation until input
+• Smooth transitions
+
+────────────────────────────────
+MODULE 2 — MAIN DASHBOARD (COMMAND CENTER)
+────────────────────────────────
+PURPOSE:
+Show that the system is tracking, measuring, and adapting.
+
+FEATURES:
+• Skill mastery overview (radar or bar chart)
+• Career readiness percentage (mock calculation)
+• Weekly learning plan preview
+• Learning streak counter
+• “Resume Learning” CTA
+
+LOGIC:
+• Career readiness = avg(skill mastery)
+• Highlight weakest 2 skills
+
+────────────────────────────────
+MODULE 3 — SKILL MAP (GRAPH VIEW)
+────────────────────────────────
+PURPOSE:
+Visualize intelligence and skill dependencies.
+
+FEATURES:
+• Skill graph/tree view
+• Color-coded mastery levels
+• Click skill → details panel
+• “Why this skill matters for your role” explanation
+
+LOGIC:
+• Hardcode prerequisite relationships
+• Mastery colors:
+  Red (<40), Yellow (40–70), Green (>70)
+
+────────────────────────────────
+MODULE 4 — LEARNING PATH / ROADMAP
+────────────────────────────────
+PURPOSE:
+Answer “What should I do next?”
+
+FEATURES:
+• Week-by-week roadmap (4–8 weeks)
+• Task cards (videos, quizzes, projects)
+• Status tracking
+• Estimated time per week
+• “Why this task?” explanation
+
+LOGIC:
+• Prioritize weakest skills
+• Respect timePerWeek
+• If skill <50 → add practice task
+
+────────────────────────────────
+MODULE 5 — ASSESSMENT CENTER
+────────────────────────────────
+PURPOSE:
+Capture evidence and trigger adaptation.
+
+FEATURES:
+• MCQ quiz UI (mock questions)
+• Score summary
+• Weak-area highlights
+• “Update my learning plan” button
+
+LOGIC:
+• Quiz score updates SkillState
+• Low score (<60) reduces mastery
+• High score (>80) boosts mastery
+
+────────────────────────────────
+MODULE 6 — AI MENTOR CHAT
+────────────────────────────────
+PURPOSE:
+Personal tutor + explainability layer.
+
+FEATURES:
+• Chat interface
+• Suggested prompts:
+  - “Why am I learning this?”
+  - “Explain SQL joins simply”
+  - “Give me practice questions”
+• Context-aware responses using current state
+
+LOGIC:
+• Use rule-based + templated responses
+• Reference user skills and plan in replies
+
+────────────────────────────────
+MODULE 7 — CAREER FIT REPORT
+────────────────────────────────
+PURPOSE:
+Outcome-driven motivation.
+
+FEATURES:
+• Role match percentage
+• Skill gap list
+• Readiness timeline
+• Resume bullet suggestions
+• Share / Download button (mock)
+
+LOGIC:
+• Match % = skills above 70%
+• Missing skills = skills below threshold
+
+────────────────────────────────
+MODULE 8 — PROJECT STUDIO (OPTIONAL WOW)
+────────────────────────────────
+PURPOSE:
+Portfolio and proof of learning.
+
+FEATURES:
+• Personalized project briefs
+• Rubric checklist
+• Submission UI
+• AI-style feedback summary
+
+LOGIC:
+• Project topic aligned with interests
+• Feedback based on completion
+
+────────────────────────────────
+MODULE 9 — STREAKS & NOTIFICATIONS
+────────────────────────────────
+PURPOSE:
+Habit building.
+
+FEATURES:
+• Streak counter
+• Missed-task reminders
+• Weekly check-in banner
+
+────────────────────────────────
+FOLDER STRUCTURE
+────────────────────────────────
+/app/
+  ├─ onboarding/
+  ├─ dashboard/
+  ├─ skill-map/
+  ├─ learning-path/
+  ├─ assessments/
+  ├─ mentor-chat/
+  ├─ career-fit/
+/components/
+  ├─ charts/
+  ├─ cards/
+  ├─ common/
+/store/
+  ├─ useUserStore.ts
+  ├─ useSkillStore.ts
+  ├─ useLearningPlanStore.ts
+
+────────────────────────────────
+FINAL INSTRUCTION
+────────────────────────────────
+Build each module sequentially.
+Start with Module 1.
+Ensure every screen feels connected and intelligent.
+This should feel like a real AI product, not a demo.
+
+DO NOT:
+• Skip UX polish
+• Add unnecessary backend code
+• Overcomplicate AI logic
+
+FOCUS ON:
+• Personalization
+• Adaptivity
+• Explainability
+• Career alignment
