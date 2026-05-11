@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 
 // AI Mentor Service - Powers intelligent, personalized content across the application
-const OPENROUTER_API_KEY = "[REDACTED]";
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "[REDACTED]";
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 // Simple in-memory cache for resources
